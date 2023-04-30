@@ -1,0 +1,4 @@
+<vector android:height="30dp" android:viewportHeight="540"
+    android:viewportWidth="540" android:width="30dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#1193ff" android:name="Curves 2" android:pathData="m62.8 509.9 446.9 -217.1c0 0 50.9 -21.6 0 -51.1c-54.1 -23.9 -459.7 -217.1 -459.7 -217.1c0 0 -57.1 -26.9 -38.3 38.3c21.2 66.8 63.8 166 63.8 166c0 0 15.1 31.4 0 70.2c-15.1 38.8 -51.1 134.1 -51.1 134.1c0 0 -49.3 99.7 19.2 83c0.4 -0.8 19.2 -6.4 19.2 -6.4z"/>
+</vector>

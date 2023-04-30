@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "798630958001",
+    "project_id": "chatclone-be56c",
+    "storage_bucket": "chatclone-be56c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:798630958001:android:5d6ddcd6d6db6086efa390",
+        "android_client_info": {
+          "package_name": "com.example.chatclone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "798630958001-v7ul2k4pvc4mqss92ticclfqqjoim69a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAvwCeYARvawAjWAi3jbM1vPI8Mk3uB6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "798630958001-v7ul2k4pvc4mqss92ticclfqqjoim69a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

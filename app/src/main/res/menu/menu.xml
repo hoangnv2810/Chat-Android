@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<!--    img_chat_psd-->
+    <item
+        android:id="@+id/chats"
+        android:icon="@drawable/icon_chat_unchecked"
+        android:title="Tín nhắn" />
+    <item
+        android:id="@+id/phonebook"
+        android:icon="@drawable/phonebook"
+        android:title="Danh bạ" />
+    <item
+        android:id="@+id/img_discovery"
+        android:icon="@drawable/icon_discovery_25_unchecked"
+        android:title="Khám phá" />
+<!--    icon_clock_1-->
+    <item
+        android:id="@+id/diary"
+        android:icon="@drawable/icon_clock_unchecked_40"
+        android:title="Nhật ký" />
+    <item
+        android:id="@+id/person"
+        android:icon="@drawable/icon_account"
+        android:title="Cá nhân" />
+</menu>
