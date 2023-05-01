@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
@@ -93,6 +95,7 @@ public class ChatActivity extends AppCompatActivity {
                     binding.image.setVisibility(View.GONE);
 
                     binding.send.setVisibility(View.VISIBLE);
+                    binding.messageBox.setTextColor(Color.BLACK);
                     binding.send.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -103,6 +106,15 @@ public class ChatActivity extends AppCompatActivity {
                             Date date = new Date();
                             Message message = new Message(messageTxt, senderUid, date.getTime());
                             binding.messageBox.setText("");
+
+                            HashMap<String, Object> lastMess = new HashMap<>();
+                            lastMess.put("lastMess", message.getMessage());
+                            lastMess.put("lastMessTime", message.getTimestamp());
+
+                            database.getReference().child("chats").child(senderRoom).updateChildren(lastMess);
+                            database.getReference().child("chats").child(receiverRoom).updateChildren(lastMess);
+
+
                             database.getReference().child("chats")
                                     .child(senderRoom)
                                     .child("messages")
@@ -120,6 +132,15 @@ public class ChatActivity extends AppCompatActivity {
 
                                                         }
                                                     });
+
+                                            HashMap<String, Object> lastMess = new HashMap<>();
+                                            lastMess.put("lastMess", message.getMessage());
+                                            lastMess.put("lastMessTime", message.getTimestamp());
+
+                                            database.getReference().child("chats").child(senderRoom).updateChildren(lastMess);
+                                            database.getReference().child("chats").child(receiverRoom).updateChildren(lastMess);
+
+
                                         }
                                     });
                         }
