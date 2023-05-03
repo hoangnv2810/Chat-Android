@@ -4,6 +4,7 @@ public class Message {
     private String messageId;
     private String message;
     private String senderId;
+    private String image;
     private long timestamp;
     private int feeling = -1;
 
@@ -54,5 +55,13 @@ public class Message {
 
     public void setFeeling(int feeling) {
         this.feeling = feeling;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

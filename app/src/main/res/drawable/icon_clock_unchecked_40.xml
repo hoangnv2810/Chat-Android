@@ -6,17 +6,17 @@
     <path
         android:name="Ellipse 1"
         android:pathData="m255.5 40c119 0 215.5 96.5 215.5 215.5c0 119 -96.5 215.5 -215.5 215.5c-119 0 -215.5 -96.5 -215.5 -215.5c0 -119 96.5 -215.5 215.5 -215.5zm0 -40c-141.1 0 -255.5 114.4 -255.5 255.5c0 141.1 114.4 255.5 255.5 255.5c141.1 0 255.5 -114.4 255.5 -255.5c0 -141.1 -114.4 -255.5 -255.5 -255.5z"
-        android:fillColor="#1194ff" />
+        android:fillColor="#4A4A4A" />
     <path
-        android:fillColor="#14e249"
-        android:strokeColor="#14e249"
+        android:fillColor="#4A4A4A"
+        android:strokeColor="#4A4A4A"
         android:strokeWidth="1"
         android:strokeMiterLimit="100"
         android:name="Rectangle 3 copy"
         android:pathData="m246 103h20c5.5 0 10 4.5 10 10v150c0 11 -9 20 -20 20h-10c-5.5 0 -10 -4.5 -10 -10v-160c0 -5.5 4.5 -10 10 -10z" />
     <path
-        android:fillColor="#14e249"
-        android:strokeColor="#14e249"
+        android:fillColor="#4A4A4A"
+        android:strokeColor="#4A4A4A"
         android:strokeWidth="1"
         android:strokeMiterLimit="100"
         android:name="Rectangle 4 copy"

@@ -4,7 +4,7 @@
 <!--    img_chat_psd-->
     <item
         android:id="@+id/chats"
-        android:icon="@drawable/icon_chat_unchecked"
+        android:icon="@drawable/icon_chat_as"
         android:title="Tín nhắn" />
     <item
         android:id="@+id/phonebook"

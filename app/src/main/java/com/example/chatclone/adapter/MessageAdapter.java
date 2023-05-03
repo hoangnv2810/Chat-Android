@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.chatclone.R;
 import com.example.chatclone.databinding.ItemReceiveBinding;
 import com.example.chatclone.databinding.ItemSentBinding;
@@ -102,6 +103,13 @@ public class MessageAdapter extends RecyclerView.Adapter{
 
         if(holder.getClass() == SentViewHolder.class){
             SentViewHolder viewHolder = (SentViewHolder) holder;
+
+            if(message.getMessage().equals("[Hình ảnh]")){
+                viewHolder.binding.imageView.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setVisibility(View.GONE);
+                Glide.with(context).load(message.getImage()).into(viewHolder.binding.imageView);
+            }
+
             viewHolder.binding.message.setText(message.getMessage());
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             viewHolder.binding.timeSent.setText(sdf.format(new Date(message.getTimestamp())));
@@ -122,6 +130,13 @@ public class MessageAdapter extends RecyclerView.Adapter{
             });
         } else {
             ReceiveViewHolder viewHolder = (ReceiveViewHolder) holder;
+
+            if(message.getMessage().equals("[Hình ảnh]")){
+                viewHolder.binding.imageView.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setVisibility(View.GONE);
+                Glide.with(context).load(message.getImage()).into(viewHolder.binding.imageView);
+            }
+
             viewHolder.binding.message.setText(message.getMessage());
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             viewHolder.binding.timeSent.setText(sdf.format(new Date(message.getTimestamp())));

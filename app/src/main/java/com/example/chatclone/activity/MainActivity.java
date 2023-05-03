@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.toolbar.setTitle("");
+        setSupportActionBar(binding.toolbar);
 
         database = FirebaseDatabase.getInstance();
         users = new ArrayList<>();
@@ -65,11 +67,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        database.getReference().child("status").child(FirebaseAuth.getInstance().getUid()).setValue("Online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        database.getReference().child("status").child(FirebaseAuth.getInstance().getUid()).setValue("Offline");
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.search:
-                Toast.makeText(this, "Search selected", Toast.LENGTH_SHORT).show();
-                break;
+
             case R.id.addFriend:
                 Toast.makeText(this, "Add Friend selected", Toast.LENGTH_SHORT).show();
                 break;
