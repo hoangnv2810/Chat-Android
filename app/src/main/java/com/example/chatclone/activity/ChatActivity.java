@@ -68,6 +68,7 @@ public class ChatActivity extends AppCompatActivity {
         binding.name.setText(name);
         receiverUid = getIntent().getStringExtra("uid");
         senderUid = FirebaseAuth.getInstance().getUid();
+        String imageReceiver = getIntent().getStringExtra("image");
         senderRoom = senderUid + receiverUid;
         receiverRoom = receiverUid + senderUid;
         database = FirebaseDatabase.getInstance();

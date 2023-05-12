@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.chatclone.R;
 import com.example.chatclone.databinding.ItemReceiveBinding;
 import com.example.chatclone.databinding.ItemSentBinding;
@@ -32,12 +35,17 @@ public class MessageAdapter extends RecyclerView.Adapter{
     final int ITEM_RECEIVE = 2;
     String senderRoom;
     String receiverRoom;
-
-    public MessageAdapter(Context context, List<Message> messages, String senderRoom, String receiverRoom) {
+    String senderUid;
+    String receiverUid;
+    String imageReceiver;
+    public MessageAdapter(Context context, List<Message> messages, String senderRoom, String receiverRoom, String senderUid, String receiverUid, String imageReceiver) {
         this.context = context;
         this.messages = messages;
         this.senderRoom = senderRoom;
         this.receiverRoom = receiverRoom;
+        this.senderUid = senderUid;
+        this.receiverUid = receiverUid;
+        this.imageReceiver = imageReceiver;
     }
 
     @NonNull
@@ -107,12 +115,17 @@ public class MessageAdapter extends RecyclerView.Adapter{
             if(message.getMessage().equals("[Hình ảnh]")){
                 viewHolder.binding.imageView.setVisibility(View.VISIBLE);
                 viewHolder.binding.message.setVisibility(View.GONE);
-                Glide.with(context).load(message.getImage()).into(viewHolder.binding.imageView);
+                viewHolder.binding.timeSentImage.setVisibility(View.VISIBLE);
+                viewHolder.binding.timeSent.setVisibility(View.GONE);
+                Glide.with(context).load(message.getImage())
+                        .into(viewHolder.binding.imageView);
             }
 
             viewHolder.binding.message.setText(message.getMessage());
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             viewHolder.binding.timeSent.setText(sdf.format(new Date(message.getTimestamp())));
+            viewHolder.binding.timeSent.setText(sdf.format(new Date(message.getTimestamp())));
+            viewHolder.binding.timeSentImage.setText(sdf.format(new Date(message.getTimestamp())));
 
             if (message.getFeeling() >= 0){
                 viewHolder.binding.feeling.setImageResource(reactions[message.getFeeling()]);
@@ -130,16 +143,23 @@ public class MessageAdapter extends RecyclerView.Adapter{
             });
         } else {
             ReceiveViewHolder viewHolder = (ReceiveViewHolder) holder;
+            Glide.with(context).load(imageReceiver)
+                    .placeholder(R.drawable.icon_user)
+                    .into(((ReceiveViewHolder) holder).binding.avatar);
 
             if(message.getMessage().equals("[Hình ảnh]")){
                 viewHolder.binding.imageView.setVisibility(View.VISIBLE);
                 viewHolder.binding.message.setVisibility(View.GONE);
-                Glide.with(context).load(message.getImage()).into(viewHolder.binding.imageView);
+                viewHolder.binding.timeSentImage.setVisibility(View.VISIBLE);
+                viewHolder.binding.timeSent.setVisibility(View.GONE);
+                Glide.with(context).load(message.getImage())
+                        .into(viewHolder.binding.imageView);
             }
 
             viewHolder.binding.message.setText(message.getMessage());
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             viewHolder.binding.timeSent.setText(sdf.format(new Date(message.getTimestamp())));
+            viewHolder.binding.timeSentImage.setText(sdf.format(new Date(message.getTimestamp())));
 
             if (message.getFeeling() >= 0){
                 viewHolder.binding.feeling.setImageResource(reactions[message.getFeeling()]);
