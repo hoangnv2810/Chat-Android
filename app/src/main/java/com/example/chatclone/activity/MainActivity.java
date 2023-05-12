@@ -2,6 +2,7 @@ package com.example.chatclone.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
@@ -9,12 +10,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.chatclone.R;
 import com.example.chatclone.adapter.UserAdapter;
 import com.example.chatclone.databinding.ActivityMainBinding;
+import com.example.chatclone.fragment.FragementDiscovery;
+import com.example.chatclone.fragment.FragmentAddressBook;
+import com.example.chatclone.fragment.FragmentChat;
+import com.example.chatclone.fragment.FragmentDiary;
+import com.example.chatclone.fragment.FragmentPersonal;
 import com.example.chatclone.model.User;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthRegistrar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,12 +32,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     ActivityMainBinding binding;
-    FirebaseDatabase database;
-    List<User> users;
-    UserAdapter userAdapter;
+    FragmentChat fragmentChat;
+    FragmentAddressBook fragmentAddressBook;
+    FragementDiscovery fragementDiscovery;
+    FragmentDiary fragmentDiary;
+    FragmentPersonal fragmentPersonal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,60 +50,53 @@ public class MainActivity extends AppCompatActivity {
         binding.toolbar.setTitle("");
         setSupportActionBar(binding.toolbar);
 
-        database = FirebaseDatabase.getInstance();
-        users = new ArrayList<>();
+        fragmentChat = new FragmentChat();
+        fragmentAddressBook = new FragmentAddressBook();
+        fragementDiscovery = new FragementDiscovery();
+        fragmentDiary = new FragmentDiary();
+        fragmentPersonal = new FragmentPersonal();
 
-        userAdapter = new UserAdapter(this, users);
-//        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        binding.recyclerView.setAdapter(userAdapter);
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        binding.bottomNavigationView.setSelectedItemId(R.id.chats);
 
-        database.getReference().child("users").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                users.clear();
-                for(DataSnapshot ds: snapshot.getChildren()){
-                    User user = ds.getValue(User.class);
-                    if(!user.getUid().equals(FirebaseAuth.getInstance().getUid()))
-                        users.add(user);
-                }
-                userAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        database.getReference().child("status").child(FirebaseAuth.getInstance().getUid()).setValue("Online");
-    }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        database.getReference().child("status").child(FirebaseAuth.getInstance().getUid()).setValue("Offline");
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-
-            case R.id.addFriend:
-                Toast.makeText(this, "Add Friend selected", Toast.LENGTH_SHORT).show();
-                break;
+            case R.id.chats:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.flFragment, fragmentChat)
+                        .commit();
+                return true;
+            case R.id.phonebook:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.flFragment, fragmentAddressBook)
+                        .commit();
+                return true;
+            case R.id.discovery:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.flFragment, fragementDiscovery)
+                        .commit();
+                return true;
+            case R.id.diary:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.flFragment, fragmentDiary)
+                        .commit();
+                return true;
+            case R.id.person:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.flFragment, fragmentPersonal)
+                        .commit();
+                return true;
         }
-        return super.onOptionsItemSelected(item);
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.topmenu, menu);
-        return super.onCreateOptionsMenu(menu);
+        return false;
     }
 }

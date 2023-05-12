@@ -11,7 +11,7 @@
         android:icon="@drawable/phonebook"
         android:title="Danh bạ" />
     <item
-        android:id="@+id/img_discovery"
+        android:id="@+id/discovery"
         android:icon="@drawable/icon_discovery_25_unchecked"
         android:title="Khám phá" />
 <!--    icon_clock_1-->

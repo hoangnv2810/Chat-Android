@@ -74,7 +74,7 @@ public class ChatActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
 
         messages = new ArrayList<>();
-        messageAdapter = new MessageAdapter(this, messages, senderRoom, receiverRoom);
+        messageAdapter = new MessageAdapter(this, messages, senderRoom, receiverRoom, senderUid, receiverRoom, imageReceiver);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(messageAdapter);
         binding.recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
