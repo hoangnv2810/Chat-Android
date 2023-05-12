@@ -5,6 +5,7 @@ public class User {
     private String name;
     private String phoneNumber;
     private String profileImage;
+    private String token;
 
     public User() {
     }
@@ -46,5 +47,13 @@ public class User {
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

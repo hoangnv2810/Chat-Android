@@ -1,9 +1,13 @@
 package com.example.chatclone.fragment;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,13 +19,18 @@ import com.example.chatclone.activity.MainActivity;
 import com.example.chatclone.adapter.UserAdapter;
 import com.example.chatclone.databinding.FragmentChatBinding;
 import com.example.chatclone.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FragmentChat extends Fragment {
@@ -45,6 +54,23 @@ public class FragmentChat extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
 
         database = FirebaseDatabase.getInstance();
+
+        FirebaseMessaging.getInstance()
+                .getToken()
+                .addOnSuccessListener(new OnSuccessListener<String>() {
+                    @Override
+                    public void onSuccess(String token) {
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("token", token);
+                        database.getReference().child("users")
+                                .child(FirebaseAuth.getInstance().getUid())
+                                        .updateChildren(map);
+
+//                        Toast.makeText(getActivity(), token, Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
         users = new ArrayList<>();
 
         userAdapter = new UserAdapter(getContext(), users);
@@ -85,21 +111,5 @@ public class FragmentChat extends Fragment {
         database.getReference().child("status").child(FirebaseAuth.getInstance().getUid()).setValue("Offline");
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()){
-//
-//            case R.id.addFriend:
-//                Toast.makeText(this, "Add Friend selected", Toast.LENGTH_SHORT).show();
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.topmenu, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
+
 }

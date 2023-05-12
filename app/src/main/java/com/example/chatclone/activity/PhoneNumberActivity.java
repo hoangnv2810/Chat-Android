@@ -31,15 +31,15 @@ public class PhoneNumberActivity extends AppCompatActivity {
         binding.buttonCon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(auth.getCurrentUser() != null){
-                    Intent intent = new Intent(PhoneNumberActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
+//                if(auth.getCurrentUser() != null){
+//                    Intent intent = new Intent(PhoneNumberActivity.this, MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                } else {
                     Intent intent = new Intent(PhoneNumberActivity.this, OPTActivity.class);
                     intent.putExtra("phoneNumber", binding.ePhone.getText().toString());
                     startActivity(intent);
-                }
+//                }
             }
         });
     }

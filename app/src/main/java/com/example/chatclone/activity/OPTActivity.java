@@ -85,16 +85,18 @@ public class OPTActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            if(auth.getCurrentUser() != null){
-                                Intent intent = new Intent(OPTActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                finishAffinity();
-                            } else {
+//                            System.out.println(auth.getCurrentUser());
+//                            if(auth.getCurrentUser() != null){
+//                                Intent intent = new Intent(OPTActivity.this, MainActivity.class);
+//                                Toast.makeText(OPTActivity.this, auth.getCurrentUser()+"", Toast.LENGTH_SHORT).show();
+//                                startActivity(intent);
+//                                finishAffinity();
+//                            } else {
                                 Toast.makeText(OPTActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(OPTActivity.this, SetupProfileActivity.class);
                                 startActivity(intent);
                                 finishAffinity();
-                            }
+//                            }
 
                         } else {
                             Toast.makeText(OPTActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
