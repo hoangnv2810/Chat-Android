@@ -65,8 +65,6 @@ public class FragmentChat extends Fragment {
                         database.getReference().child("users")
                                 .child(FirebaseAuth.getInstance().getUid())
                                         .updateChildren(map);
-
-//                        Toast.makeText(getActivity(), token, Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -74,7 +72,6 @@ public class FragmentChat extends Fragment {
         users = new ArrayList<>();
 
         userAdapter = new UserAdapter(getContext(), users);
-//        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(userAdapter);
 
         database.getReference().child("users").addValueEventListener(new ValueEventListener() {

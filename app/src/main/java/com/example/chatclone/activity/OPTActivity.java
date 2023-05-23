@@ -49,7 +49,7 @@ public class OPTActivity extends AppCompatActivity {
         binding.otpView.requestFocus();
 
         String phoneNumber = getIntent().getStringExtra("phoneNumber");
-        binding.phoneLabel.setText("Verify \n" + phoneNumber);
+        binding.phoneLabel.setText(phoneNumber);
 
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(auth)
                 .setPhoneNumber(phoneNumber)

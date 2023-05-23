@@ -145,6 +145,7 @@ public class MessageAdapter extends RecyclerView.Adapter{
             ReceiveViewHolder viewHolder = (ReceiveViewHolder) holder;
             Glide.with(context).load(imageReceiver)
                     .placeholder(R.drawable.icon_user)
+                    .error(R.drawable.icon_user)
                     .into(((ReceiveViewHolder) holder).binding.avatar);
 
             if(message.getMessage().equals("[Hình ảnh]")){

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "798630958001",
+    "firebase_url": "https://chatclone-be56c-default-rtdb.firebaseio.com/",
     "project_id": "chatclone-be56c",
     "storage_bucket": "chatclone-be56c.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "798630958001-dq94thlj3hihr1o7n4a45kvqrt8q30uf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chatclone",
+            "certificate_hash": "0ee890a175fabc3037d7323c54b1227f1ec318fb"
+          }
+        },
         {
           "client_id": "798630958001-v7ul2k4pvc4mqss92ticclfqqjoim69a.apps.googleusercontent.com",
           "client_type": 3

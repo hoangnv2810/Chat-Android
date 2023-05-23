@@ -2,12 +2,14 @@ package com.example.chatclone.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -30,7 +32,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     Context context;
     List<User> users;
-
+    int row_index = -1;
     public UserAdapter(Context context, List<User> users) {
         this.context = context;
         this.users = users;
@@ -82,19 +84,27 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
         Glide.with(context).load(user.getProfileImage())
                 .placeholder(R.drawable.icon_user)
+                .error(R.drawable.icon_user)
                 .into(holder.binding.avatar);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                row_index = position;
                 Intent intent = new Intent(context, ChatActivity.class);
                 intent.putExtra("name", user.getName());
                 intent.putExtra("uid", user.getUid());
                 intent.putExtra("image", user.getProfileImage());
                 intent.putExtra("token", user.getToken());
                 context.startActivity(intent);
+                notifyDataSetChanged();
             }
         });
+        if(row_index == position){
+            holder.itemView.setBackgroundColor(Color.parseColor("#f3f4f6"));
+        } else {
+            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+        }
     }
 
     @Override

@@ -64,6 +64,37 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="3dp"
+            android:gravity="end">
+
+            <ImageView
+                android:id="@+id/call_voice"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center"
+                android:padding="4dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                app:srcCompat="@drawable/phone" />
+
+            <ImageView
+                android:id="@+id/call_video"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="15dp"
+                android:padding="4dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                app:srcCompat="@drawable/cam_video" />
+
+        </LinearLayout>
+
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView

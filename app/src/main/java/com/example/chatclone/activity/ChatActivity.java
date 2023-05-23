@@ -27,6 +27,7 @@ import com.example.chatclone.R;
 import com.example.chatclone.adapter.MessageAdapter;
 import com.example.chatclone.databinding.ActivityChatBinding;
 import com.example.chatclone.model.Message;
+import com.example.chatclone.utils.Constants;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,6 +35,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -61,6 +63,7 @@ public class ChatActivity extends AppCompatActivity {
     String senderUid;
     String receiverUid;
     String name, token;
+    DatabaseReference cancelRef;
 
 
     @Override
@@ -86,8 +89,9 @@ public class ChatActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
 
-//        Toast.makeText(this, token, Toast.LENGTH_LONG).show();
+        cancelRef = database.getReference("cancel");
 
+        cancelRef.removeValue();
         messages = new ArrayList<>();
         messageAdapter = new MessageAdapter(this, messages, senderRoom, receiverRoom, senderUid, receiverRoom, imageReceiver);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -236,9 +240,29 @@ public class ChatActivity extends AppCompatActivity {
                 startActivityForResult(intent, 25);
             }
         });
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        getSupportActionBar().setTitle(name);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        binding.callVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ChatActivity.this, VideoCallOutGoing.class);
+                intent.putExtra("receiverUid", receiverUid);
+                intent.putExtra("type", "video");
+                startActivity(intent);
+            }
+        });
+
+        binding.callVoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ChatActivity.this, VideoCallOutGoing.class);
+                intent.putExtra("receiverUid", receiverUid);
+                intent.putExtra("type", "voice");
+                startActivity(intent);
+            }
+        });
+
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
     }
 
@@ -268,13 +292,8 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }) {
                 @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> map = new HashMap<>();
-                    String key = "Key=AAAAufIdU7E:APA91bGL42PAyPnJPPbT6eZlNgJpEvySTJlwJp25zQsx2x4l7ROUc5pRRohkRoX2gconLOZauiJ-bVyNW1WOlK7RHf46cVbj6n10n_J_ea2qQAanFaU7cBe15B23GaEu9p11OyTbU90S";
-                    map.put("Content-Type", "application/json");
-                    map.put("Authorization", key);
-
-                    return map;
+                public Map<String, String> getHeaders() throws AuthFailureError {;
+                    return Constants.getRemoteMessageHeaders();
                 }
             };
 
