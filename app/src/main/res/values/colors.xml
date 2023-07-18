@@ -10,4 +10,7 @@
     <color name="aqua">#02c4e8</color>
     <color name="blue">#0091ff</color>
     <color name="gray">#C3C3C3</color>
+    <color name="gray_text">#757575</color>
+    <color name="gray_conv">#f3f4f6</color>
+    <color name="red">#EF4646</color>
 </resources>

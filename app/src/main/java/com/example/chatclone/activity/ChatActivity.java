@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import com.example.chatclone.R;
 import com.example.chatclone.adapter.MessageAdapter;
 import com.example.chatclone.databinding.ActivityChatBinding;
 import com.example.chatclone.model.Message;
+import com.example.chatclone.utils.Constants;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,6 +36,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -52,6 +55,7 @@ import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
     ActivityChatBinding binding;
+    RecyclerView recyclerView;
     MessageAdapter messageAdapter;
     List<Message> messages;
     String senderRoom, receiverRoom;
@@ -61,6 +65,7 @@ public class ChatActivity extends AppCompatActivity {
     String senderUid;
     String receiverUid;
     String name, token;
+    DatabaseReference cancelRef;
 
 
     @Override
@@ -68,6 +73,8 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        recyclerView = findViewById(R.id.recyclerView);
+
 
         setSupportActionBar(binding.toolbar);
 
@@ -86,8 +93,9 @@ public class ChatActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
 
-//        Toast.makeText(this, token, Toast.LENGTH_LONG).show();
+        cancelRef = database.getReference("cancel");
 
+        cancelRef.removeValue();
         messages = new ArrayList<>();
         messageAdapter = new MessageAdapter(this, messages, senderRoom, receiverRoom, senderUid, receiverRoom, imageReceiver);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -130,8 +138,8 @@ public class ChatActivity extends AppCompatActivity {
                             message.setMessageId(ds.getKey());
                             messages.add(message);
                         }
-                        messageAdapter.notifyDataSetChanged();
                         binding.recyclerView.scrollToPosition(messages.size() - 1);
+                        messageAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -174,12 +182,12 @@ public class ChatActivity extends AppCompatActivity {
                             Message message = new Message(messageTxt, senderUid, date.getTime());
                             binding.messageBox.setText("");
 
-                            HashMap<String, Object> lastMess = new HashMap<>();
-                            lastMess.put("lastMess", message.getMessage());
-                            lastMess.put("lastMessTime", message.getTimestamp());
+                            HashMap<String, Object> lastMessSend = new HashMap<>();
+                            lastMessSend.put("lastMess", "Bạn: " + message.getMessage());
+                            lastMessSend.put("lastMessTime", message.getTimestamp());
+                            lastMessSend.put("seen", true);
 
-                            database.getReference().child("chats").child(senderRoom).updateChildren(lastMess);
-                            database.getReference().child("chats").child(receiverRoom).updateChildren(lastMess);
+                            database.getReference().child("chats").child(senderRoom).updateChildren(lastMessSend);
 
 
                             database.getReference().child("chats")
@@ -203,8 +211,8 @@ public class ChatActivity extends AppCompatActivity {
                                             HashMap<String, Object> lastMess = new HashMap<>();
                                             lastMess.put("lastMess", message.getMessage());
                                             lastMess.put("lastMessTime", message.getTimestamp());
+                                            lastMess.put("seen", false);
 
-                                            database.getReference().child("chats").child(senderRoom).updateChildren(lastMess);
                                             database.getReference().child("chats").child(receiverRoom).updateChildren(lastMess);
 
 
@@ -236,9 +244,29 @@ public class ChatActivity extends AppCompatActivity {
                 startActivityForResult(intent, 25);
             }
         });
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        getSupportActionBar().setTitle(name);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        binding.callVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ChatActivity.this, VideoCallOutGoing.class);
+                intent.putExtra("receiverUid", receiverUid);
+                intent.putExtra("type", "video");
+                startActivity(intent);
+            }
+        });
+
+        binding.callVoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ChatActivity.this, VideoCallOutGoing.class);
+                intent.putExtra("receiverUid", receiverUid);
+                intent.putExtra("type", "voice");
+                startActivity(intent);
+            }
+        });
+
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
     }
 
@@ -268,13 +296,8 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }) {
                 @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> map = new HashMap<>();
-                    String key = "Key=AAAAufIdU7E:APA91bGL42PAyPnJPPbT6eZlNgJpEvySTJlwJp25zQsx2x4l7ROUc5pRRohkRoX2gconLOZauiJ-bVyNW1WOlK7RHf46cVbj6n10n_J_ea2qQAanFaU7cBe15B23GaEu9p11OyTbU90S";
-                    map.put("Content-Type", "application/json");
-                    map.put("Authorization", key);
-
-                    return map;
+                public Map<String, String> getHeaders() throws AuthFailureError {;
+                    return Constants.getRemoteMessageHeaders();
                 }
             };
 

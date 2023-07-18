@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0068ff"
+    tools:context=".activity.VideoCallInComing">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageUser"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="128dp"
+        android:src="@drawable/icon_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hoàng Hà"
+        android:fontFamily="@font/roboto"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/imageUser"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Zalo: Cuộc gọi video đến"
+        android:textColor="@color/white"
+        android:fontFamily="@font/roboto"
+        android:textSize="18dp"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/decline"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:flow_horizontalAlign="center"
+        app:flow_verticalAlign="center"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="80dp"
+        app:maxImageSize="35dp"
+        app:fabCustomSize="70dp"
+        android:backgroundTint="#e36662"
+        android:foregroundGravity="center"
+        app:tint="@color/white"
+        android:src="@drawable/baseline_call_end_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/accept"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="60dp"
+            android:backgroundTint="#00c478"
+            app:fabCustomSize="70dp"
+        app:maxImageSize="35dp"
+            app:tint="@color/white"
+            android:src="@drawable/baseline_videocam_24"
+            android:layout_marginBottom="80dp"
+            android:background="#e36662"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

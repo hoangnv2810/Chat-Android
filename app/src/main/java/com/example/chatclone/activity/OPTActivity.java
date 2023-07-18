@@ -49,7 +49,7 @@ public class OPTActivity extends AppCompatActivity {
         binding.otpView.requestFocus();
 
         String phoneNumber = getIntent().getStringExtra("phoneNumber");
-        binding.phoneLabel.setText("Verify \n" + phoneNumber);
+        binding.phoneLabel.setText(phoneNumber);
 
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(auth)
                 .setPhoneNumber(phoneNumber)
@@ -86,17 +86,17 @@ public class OPTActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
 //                            System.out.println(auth.getCurrentUser());
-//                            if(auth.getCurrentUser() != null){
-//                                Intent intent = new Intent(OPTActivity.this, MainActivity.class);
-//                                Toast.makeText(OPTActivity.this, auth.getCurrentUser()+"", Toast.LENGTH_SHORT).show();
-//                                startActivity(intent);
-//                                finishAffinity();
-//                            } else {
+                            if(auth.getCurrentUser() != null){
+                                Intent intent = new Intent(OPTActivity.this, MainActivity.class);
+                                Toast.makeText(OPTActivity.this, auth.getCurrentUser()+"", Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+                                finishAffinity();
+                            } else {
                                 Toast.makeText(OPTActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(OPTActivity.this, SetupProfileActivity.class);
                                 startActivity(intent);
                                 finishAffinity();
-//                            }
+                            }
 
                         } else {
                             Toast.makeText(OPTActivity.this, "Login failed", Toast.LENGTH_SHORT).show();

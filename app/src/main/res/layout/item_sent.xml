@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="1dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -74,7 +74,25 @@
         app:layout_constraintEnd_toEndOf="@id/cardImage"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeSentImage"/>
+        app:layout_constraintTop_toBottomOf="@+id/timeSentImage" />
+
+    <TextView
+        android:id="@+id/seen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/time_image"
+        android:fontFamily="@font/roboto"
+        android:paddingLeft="10dp"
+        android:paddingTop="1dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="1dp"
+        android:text="Đã xem"
+        android:visibility="gone"
+        android:textColor="#f7fdfd"
+        android:textSize="12.5dp"
+        app:layout_constraintRight_toRightOf="@id/message"
+        app:layout_constraintTop_toBottomOf="@+id/message" />
 
     <TextView
         android:id="@+id/timeSent"

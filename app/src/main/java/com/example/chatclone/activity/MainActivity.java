@@ -1,11 +1,17 @@
 package com.example.chatclone.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -40,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     FragementDiscovery fragementDiscovery;
     FragmentDiary fragmentDiary;
     FragmentPersonal fragmentPersonal;
-
+    private int REQUEST_CODE_BATTERY_OPTIMIZATIONS = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(this);
         binding.bottomNavigationView.setSelectedItemId(R.id.chats);
 
-
+        checkForBatteryOptimizations();
     }
 
 
@@ -116,5 +122,30 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.topmenu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void checkForBatteryOptimizations() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+            if(!powerManager.isIgnoringBatteryOptimizations(getPackageName())){
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Warning");
+                builder.setMessage("Enabled");
+                builder.setPositiveButton("Disable", (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                    startActivityForResult(intent, REQUEST_CODE_BATTERY_OPTIMIZATIONS);
+                });
+                builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+                builder.create().show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_BATTERY_OPTIMIZATIONS){
+            checkForBatteryOptimizations();
+        }
     }
 }

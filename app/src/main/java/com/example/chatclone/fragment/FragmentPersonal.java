@@ -60,6 +60,7 @@ public class FragmentPersonal extends Fragment {
                         username.setText(user.getName());
                         Glide.with(getActivity()).load(user.getProfileImage())
                                 .placeholder(R.drawable.icon_user)
+                                .error(R.drawable.icon_user)
                                 .into(avatar);
                     } else {
                         Toast.makeText(getActivity(), "Không lấy được thông tin người dùng", Toast.LENGTH_SHORT).show();

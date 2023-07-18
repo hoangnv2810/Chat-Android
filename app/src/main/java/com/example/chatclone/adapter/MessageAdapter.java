@@ -21,7 +21,10 @@ import com.github.pgreze.reactions.ReactionPopup;
 import com.github.pgreze.reactions.ReactionsConfig;
 import com.github.pgreze.reactions.ReactionsConfigBuilder;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -124,8 +127,31 @@ public class MessageAdapter extends RecyclerView.Adapter{
             viewHolder.binding.message.setText(message.getMessage());
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             viewHolder.binding.timeSent.setText(sdf.format(new Date(message.getTimestamp())));
-            viewHolder.binding.timeSent.setText(sdf.format(new Date(message.getTimestamp())));
             viewHolder.binding.timeSentImage.setText(sdf.format(new Date(message.getTimestamp())));
+
+
+            if(position == getItemCount() - 1){
+                FirebaseDatabase.getInstance().getReference()
+                        .child("chats")
+                        .child(receiverRoom)
+                        .child("seen").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Boolean seen = snapshot.getValue(Boolean.class);
+                                if(seen){
+                                    ((SentViewHolder) holder).binding.seen.setVisibility(View.VISIBLE);
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+            } else {
+                ((SentViewHolder) holder).binding.seen.setVisibility(View.GONE);
+            }
 
             if (message.getFeeling() >= 0){
                 viewHolder.binding.feeling.setImageResource(reactions[message.getFeeling()]);
@@ -145,6 +171,7 @@ public class MessageAdapter extends RecyclerView.Adapter{
             ReceiveViewHolder viewHolder = (ReceiveViewHolder) holder;
             Glide.with(context).load(imageReceiver)
                     .placeholder(R.drawable.icon_user)
+                    .error(R.drawable.icon_user)
                     .into(((ReceiveViewHolder) holder).binding.avatar);
 
             if(message.getMessage().equals("[Hình ảnh]")){

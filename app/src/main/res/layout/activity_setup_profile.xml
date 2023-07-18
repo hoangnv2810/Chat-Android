@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:text="Profile Information"
+        android:text="Ảnh đại diện"
         android:textColor="@color/black"
         android:textSize="18dp"
         android:textStyle="bold"
@@ -31,31 +31,40 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
-    <EditText
-        android:id="@+id/eName"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/edittext_outline"
-        android:ems="10"
-        android:hint="Type your name"
-        android:paddingStart="15dp"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="16sp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:padding="0dp"
+        app:boxBackgroundColor="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" >
+
+        <EditText
+            android:id="@+id/eName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="35dp"
+            android:layout_marginTop="30dp"
+            android:ems="10"
+            android:hint="Tên"
+            android:importantForAutofill="no"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="20sp"
+            tools:background="@android:color/transparent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <Button
         android:id="@+id/buttonCon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginHorizontal="35dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/bg_buttom"
         android:backgroundTint="#29B6F6"
         android:text="Save"
@@ -65,14 +74,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eName" />
+        app:layout_constraintTop_toBottomOf="@+id/input" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Please set your name and optional profile image"
+        android:layout_marginTop="5dp"
+        android:text="Vui lòng nhập tên người dùng"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phoneLabel" />

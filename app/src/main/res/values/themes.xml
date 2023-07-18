@@ -29,6 +29,10 @@
 
     </style>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7c1e34a6580dcf566069979c43191789b3f723bf
     <style name="ButtonCancel" parent="ThemeOverlay.AppCompat">
         <item name="colorPrimary">#eaebed</item>
     </style>
