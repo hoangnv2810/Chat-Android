@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -54,6 +55,7 @@ import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
     ActivityChatBinding binding;
+    RecyclerView recyclerView;
     MessageAdapter messageAdapter;
     List<Message> messages;
     String senderRoom, receiverRoom;
@@ -71,6 +73,8 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        recyclerView = findViewById(R.id.recyclerView);
+
 
         setSupportActionBar(binding.toolbar);
 
@@ -134,8 +138,8 @@ public class ChatActivity extends AppCompatActivity {
                             message.setMessageId(ds.getKey());
                             messages.add(message);
                         }
-                        messageAdapter.notifyDataSetChanged();
                         binding.recyclerView.scrollToPosition(messages.size() - 1);
+                        messageAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -178,12 +182,12 @@ public class ChatActivity extends AppCompatActivity {
                             Message message = new Message(messageTxt, senderUid, date.getTime());
                             binding.messageBox.setText("");
 
-                            HashMap<String, Object> lastMess = new HashMap<>();
-                            lastMess.put("lastMess", message.getMessage());
-                            lastMess.put("lastMessTime", message.getTimestamp());
+                            HashMap<String, Object> lastMessSend = new HashMap<>();
+                            lastMessSend.put("lastMess", "Bạn: " + message.getMessage());
+                            lastMessSend.put("lastMessTime", message.getTimestamp());
+                            lastMessSend.put("seen", true);
 
-                            database.getReference().child("chats").child(senderRoom).updateChildren(lastMess);
-                            database.getReference().child("chats").child(receiverRoom).updateChildren(lastMess);
+                            database.getReference().child("chats").child(senderRoom).updateChildren(lastMessSend);
 
 
                             database.getReference().child("chats")
@@ -207,8 +211,8 @@ public class ChatActivity extends AppCompatActivity {
                                             HashMap<String, Object> lastMess = new HashMap<>();
                                             lastMess.put("lastMess", message.getMessage());
                                             lastMess.put("lastMessTime", message.getTimestamp());
+                                            lastMess.put("seen", false);
 
-                                            database.getReference().child("chats").child(senderRoom).updateChildren(lastMess);
                                             database.getReference().child("chats").child(receiverRoom).updateChildren(lastMess);
 
 

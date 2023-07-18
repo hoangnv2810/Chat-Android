@@ -28,11 +28,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import retrofit2.http.Body;
+
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
     Context context;
     List<User> users;
     int row_index = -1;
+
     public UserAdapter(Context context, List<User> users) {
         this.context = context;
         this.users = users;
@@ -51,6 +54,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
         String senderId = FirebaseAuth.getInstance().getUid();
         String senderRoom = senderId + user.getUid();
+        String receiverRoom = user.getUid() + senderId;
 
         FirebaseDatabase.getInstance().getReference()
                 .child("chats")
@@ -59,13 +63,31 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
-                            String lastMess = snapshot.child("lastMess").getValue(String.class);
-                            long lastTime = snapshot.child("lastMessTime").getValue(Long.class);
+                            long lastTime = 0;
+                            String lastMess = "Chat với bạn bè";
+                            Boolean seen = true;
+                            if(snapshot.child("lastMess").exists()){
+                                lastMess = snapshot.child("lastMess").getValue(String.class);
+                            }
+                            if (snapshot.child("lastMessTime").exists()) {
+                                lastTime = snapshot.child("lastMessTime").getValue(Long.class);
+                            }
+                            if(snapshot.child("seen").exists()){
+                                seen = snapshot.child("seen").getValue(Boolean.class);
+                            }
 
                             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
                             holder.binding.lastMess.setText(lastMess);
                             holder.binding.msgTime.setText(sdf.format(lastTime));
+
+                            if (seen == false) {
+                                holder.binding.lastMess.setTextColor(Color.parseColor("#0091ff"));
+                                holder.binding.seen.setVisibility(View.VISIBLE);
+                            } else if(seen == true){
+                                holder.binding.lastMess.setTextColor(Color.parseColor("#757575"));
+                                holder.binding.seen.setVisibility(View.GONE);
+                            }
 
                         } else {
                             holder.binding.lastMess.setText("Chat với bạn bè");
@@ -97,6 +119,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 intent.putExtra("image", user.getProfileImage());
                 intent.putExtra("token", user.getToken());
                 context.startActivity(intent);
+                FirebaseDatabase.getInstance().getReference()
+                        .child("chats")
+                        .child(senderRoom)
+                        .child("seen")
+                        .setValue(true);
                 notifyDataSetChanged();
             }
         });
