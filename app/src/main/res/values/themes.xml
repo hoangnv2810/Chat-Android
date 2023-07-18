@@ -29,6 +29,10 @@
 
     </style>
 
+    <style name="ButtonCancel" parent="ThemeOverlay.AppCompat">
+        <item name="colorPrimary">#eaebed</item>
+    </style>
+
     <style name="ThemeChat" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue</item>
